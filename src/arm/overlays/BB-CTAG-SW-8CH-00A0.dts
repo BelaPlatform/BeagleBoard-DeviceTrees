@@ -1,0 +1,144 @@
+// SPDX-License-Identifier: GPL-3.0-only
+/*
+ * Copyright (C) 2020 Deepak Khatri <deepaklorkhatri7@gmail.com>
+ * See Cape Interface Spec page for more info on Bone Buses
+ * https://elinux.org/Beagleboard:BeagleBone_cape_interface_spec
+ * Device Tree Overlay for CTAG face2|4 multichannel soundcard - 8 audio channels
+ *
+ * Based on the BB-CTAG-SW-8CH-00A0.dts for kernel <4.14 written by 
+ * Copyright (C) Henrik Langer <henni19790@googlemail.com>
+ */
+
+/dts-v1/;
+/plugin/;
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/am33xx.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+
+/*
+ * Helper to show loaded overlays under: /proc/device-tree/chosen/overlays/
+ */
+&{/chosen} {
+	overlays {
+		BB-CTAG-SW-8CH-00A0.kernel = __TIMESTAMP__;
+	};
+};
+
+/*
+ * Update the default pinmux of the pins.
+ * See these files for the phandles (&P9_* & &P8_*)
+ * BeagleBoard-DeviceTrees/v4.19.x-ti-overlays/src/arm/am335x-bone-common-univ.dtsi
+ * BeagleBoard-DeviceTrees/v4.19.x-ti-overlays/src/arm/am572x-bone-common-univ.dtsi
+ */
+#if 1
+&ocp {
+	P9_30_pinmux { status = "disabled"; }; /* mcasp axr - audio in */
+	//P9_30_pinmux { pinctrl-0 = <&P9_30_mcasp_pin>; }; /* mcasp axr - audio in */
+	P9_28_pinmux { status = "disabled"; }; /* mcasp axr - audio out */
+	//P9_28_pinmux { pinctrl-0 = <&P9_28_mcasp_pin>; }; /* mcasp axr - audio out */
+	P9_31_pinmux { status = "disabled"; }; /* mcasp ahclkx - transmit bitclock */
+	//P9_31_pinmux { pinctrl-0 = <&P9_31_mcasp_pin>; }; /* mcasp ahclkx - transmit bitclock */
+	P9_29_pinmux { status = "disabled"; }; /* mcasp fsx - transmit frameclock */
+	//P9_29_pinmux { pinctrl-0 = <&P9_29_mcasp_pin>; }; /* mcasp fsx - transmit frameclock */
+	P8_14_pinmux { status = "disabled"; }; /* spi_miso */
+	//P8_14_pinmux { pinctrl-0 = <&P8_14_gpio_pu_pin>; }; /* spi_miso */
+	P8_17_pinmux { status = "disabled"; }; /* spi_cs0 */
+	//P8_17_pinmux { pinctrl-0 = <&P8_17_gpio_pu_pin>; }; /* spi_cs0 */
+	P8_32_pinmux { status = "disabled"; };
+	P8_33_pinmux { status = "disabled"; };
+	P8_34_pinmux { status = "disabled"; };
+	//P8_34_pinmux { pinctrl-0 = <&P8_34_gpio_pd_pin>; }; /* spi_reset-gpio */
+};
+#endif
+
+&am33xx_pinmux {
+#define AD1938_SINGLE_MUX // we are lazy and don't want to assign them properly quite yet
+	ad1938_codec_reset_muxing: ad1938_codec_reset_muxing {
+		pinctrl-single,pins = <
+#if 1 // ALREADY CLAIMED BY CORE DRIVER
+			AM33XX_IOPAD (0x8cc, PIN_INPUT_PULLDOWN | MUX_MODE7)      /*  MODE7 | RESET P8.34 */
+#endif
+#ifndef AD1938_SINGLE_MUX
+		>;
+	};
+
+#if 0 // these are actually used for disabling the mcasp
+	mcasp0_pins_sleep: mcasp0_pins_sleep {
+		pinctrl-single,pins = <
+			AM33XX_IOPAD (0x99c, PIN_INPUT_PULLDOWN | MUX_MODE7)	/* mcasp0_axr2 */
+			AM33XX_IOPAD (0x994, PIN_INPUT_PULLDOWN | MUX_MODE7)	/* mcasp0_fsx */
+			AM33XX_IOPAD (0x990, PIN_INPUT_PULLDOWN | MUX_MODE7)	/* mcasp0_aclkx */
+			AM33XX_IOPAD (0x9a4, PIN_INPUT_PULLDOWN | MUX_MODE0)	/* mcasp0_fsr */
+			AM33XX_IOPAD (0x878, PIN_INPUT_PULLDOWN | MUX_MODE6)	/* mcasp0_aclkr */
+			AM33XX_IOPAD (0x998, PIN_INPUT_PULLDOWN | MUX_MODE7)	/* mcasp0_axr0 */
+			0x06c (PIN_INPUT_PULLDOWN | MUX_MODE7)	/* gpio1[27] */
+		>;
+	};
+#endif
+
+	mcasp0_pins: mcasp0_pins {
+		pinctrl-single,pins = <
+#endif// AD1938_SINGLE_MUX
+			AM33XX_IOPAD (0x99c, PIN_OUTPUT_PULLDOWN | MUX_MODE2) /* mcasp0_axr2 */
+			AM33XX_IOPAD (0x994, PIN_INPUT_PULLDOWN | MUX_MODE0)	/* mcasp0_fsx */
+			AM33XX_IOPAD (0x990, PIN_INPUT_PULLDOWN | MUX_MODE0)	/* mcasp0_aclkx */
+			AM33XX_IOPAD (0x998, PIN_INPUT_PULLDOWN | MUX_MODE0)	/* mcasp0_axr0 */
+			0x06c (PIN_OUTPUT_PULLDOWN | MUX_MODE7)	/* gpio1[27] (enable oscillator) */
+#ifndef AD1938_SINGLE_MUX
+		>;
+	};
+
+	audiocard_spi_pins: pinmux_audiocard_spi_pins { 
+		pinctrl-single,pins = <
+#endif// AD1938_SINGLE_MUX
+			AM33XX_IOPAD (0x8dc, PIN_INPUT_PULLUP | MUX_MODE7)	  /* spi_sclk, 	MODE7 | INPUT_PULLUP | SPI_SCLK P8_32 */
+			AM33XX_IOPAD (0x828, PIN_INPUT_PULLUP | MUX_MODE7)	  /* spi_miso, 	MODE7 | INPUT_PULLUP | SPI_MISO P8_14 */
+			AM33XX_IOPAD (0x8d4, PIN_OUTPUT_PULLUP | MUX_MODE7)  /* spi_mosi, 	MODE7 | OUTPUT_PULLUP | SPI_MOSI P8_33 */
+			AM33XX_IOPAD (0x82c, PIN_OUTPUT_PULLUP | MUX_MODE7)  /* spi_cs0, 	MODE7 | OUTPUT_PULLUP | SPI_CS0 P8_17 */
+		>;
+	};
+};
+
+/*
+ * See these files for the phandles (&bone_*) and other bone bus nodes
+ * BeagleBoard-DeviceTrees/v4.19.x-ti-overlays/src/arm/bbai-bone-buses.dtsi
+ * BeagleBoard-DeviceTrees/v4.19.x-ti-overlays/src/arm/bbb-bone-buses.dtsi
+ */
+&bone_mcasp_0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&ad1938_codec_reset_muxing>;
+	op-mode = <0>;	/* MCASP_IIS_MODE */
+	tdm-slots = <8>;
+	num-serializer = <16>;
+	tx-num-evt = <1>;
+	rx-num-evt = <1>;
+};
+
+&bone_spi_gpio_ad193x {
+	status = "okay";
+};
+
+&bone_sound {
+	compatible = "ctag,face-2-4";
+	ti,model = "CTAG face-2-4 8CH";
+	ti,audio-codec = <&ad193x>;
+	ti,mcasp-controller = <&bone_mcasp_0>;
+	ti,audiocard-tdm-slots = <8>;
+	ti,codec-clock-rate = <24576000>;
+	ti,cpu-clock-rate = <24576000>;
+	status = "okay";
+	
+	ti,audio-codec-bit-delay-dac = <1>; //currently only supports 1 or 0 bit delay
+	ti,audio-codec-bit-delay-adc = <1>;
+	ti,mcasp-controller-bit-delay-tx = <1>;
+	ti,mcasp-controller-bit-delay-rx = <1>;
+
+	audio-routing =
+		"Line Out",             "DAC1OUT",
+		"Line Out",             "DAC2OUT",
+		"Line Out",             "DAC3OUT",
+		"Line Out",             "DAC4OUT",
+		"ADC1IN",               "Line In",
+		"ADC2IN",               "Line In";
+};
