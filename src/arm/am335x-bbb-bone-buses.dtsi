@@ -177,3 +177,54 @@ bone_pinmux: &am33xx_pinmux {
 bone_adc: &tscadc {
 
 };
+
+&ocp {
+        clk_mcasp0_fixed: clk_mcasp0_fixed {
+                #clock-cells = <0>;
+                compatible = "fixed-clock";
+                clock-frequeny = <24576000>;
+        };
+        clk_mcasp0: clk_mcasp0 {
+                #clock-cells = <0>;
+                compatible = "gpio-gate-clock";
+                clocks = <&clk_mcasp0_fixed>;
+                enable-gpios = <&gpio1 27 GPIO_ACTIVE_HIGH>;
+        };
+	bone_sound: bone_sound {
+		bb-device = <0>; //BBB/BBG
+	};
+};
+
+// McASP
+bone_mcasp_0: &mcasp0 {
+    serial-dir = <  /* 0: INACTIVE, 1: TX, 2: RX */
+		2 0 1 0
+		0 0 0 0
+		0 0 0 0
+		0 0 0 0
+	>;
+};
+
+// spi_gpio (bit banged SPI)
+&{/} {
+	// For CTAG SW 8ch overlay
+	bone_spi_gpio_ad193x: bone_spi_gpio_ad193x {
+		status = "disabled";
+		compatible = "spi-gpio";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		sck-gpios = <gpio_P8_32 GPIO_ACTIVE_HIGH>;
+		mosi-gpios = <gpio_P8_33 GPIO_ACTIVE_HIGH>;
+		miso-gpios = <gpio_P8_14 GPIO_ACTIVE_HIGH>;
+		cs-gpios = <gpio_P8_17 GPIO_ACTIVE_HIGH>;
+		num-chipselects = <1>;
+
+		ad193x: ad193x@0{
+			compatible = "analog,ad1938";
+			reset-gpio = <gpio_P8_34 GPIO_ACTIVE_HIGH>;
+			reg = <0>; //corresponds to cs
+			spi-max-frequency = <100000>;
+		};
+	};
+};
