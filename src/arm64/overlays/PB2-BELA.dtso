@@ -1,0 +1,119 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2022 BeagleBoard.org - https://beagleboard.org/
+ *
+ * https://docs.beagleboard.io/latest/boards/capes/cape-interface-spec.html#i2c
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+#include "ti/k3-pinctrl.h"
+
+/dts-v1/;
+/plugin/;
+
+/*
+ * Helper to show loaded overlays under: /proc/device-tree/chosen/overlays/
+ */
+&{/chosen} {
+	overlays {
+		PB2-BELA.kernel = __TIMESTAMP__;
+	};
+};
+
+// many definitions from pinmux/board/pocketbeagle2/pocketbeagle2-pinmux.dts
+&main_pmx0 {
+	P1_06_E19_spi: P1-06-E19-spi-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01AC, PIN_INPUT, 1) /* (E19) MCASP0_AFSR.SPI2_CS0 */
+		>;
+	};
+	P1_08_spi: P1-08-spi-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01B0, PIN_INPUT, 1) /* (A20) MCASP0_ACLKR.SPI2_CLK */
+		>;
+	};
+	P1_10_B19_spi: P1-10-B19-spi-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0194, PIN_INPUT, 1) /* (B19) MCASP0_AXR3.SPI2_D0 */
+		>;
+	};
+	P1_12_A19_spi: P1-12-A19-spi-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0198, PIN_INPUT, 1) /* (A19) MCASP0_AXR2.SPI2_D1 */
+		>;
+	};
+	P1_33_A17_i2c: P1-33-A17-i2c-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01EC, PIN_INPUT_PULLUP, 0) /* (A17) I2C1_SDA */
+		>;
+	};
+	P1_36_B17_i2c: P1-36-B17-i2c-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01E8, PIN_INPUT_PULLUP, 0) /* (B17) I2C1_SCL */
+		>;
+	};
+	P2_05_C15_audio: P2-05-C15-audio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01D8, PIN_INPUT, 8) /* (C15) MCAN0_TX.MCASP2_AXR0 */
+		>;
+	};
+	P2_07_E15_audio: P2-07-E15-audio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01DC, PIN_INPUT, 8) /* (E15) MCAN0_RX.MCASP2_AXR1 */
+		>;
+	};
+	P2_10_audio: P2-10-audio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0174, PIN_INPUT, 2) /* (AD21) RGMII2_TD2.MCASP2_AFSX */
+		>;
+	};
+	P2_11_B15_audio: P2-11-B15-audio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01D4, PIN_INPUT, 8) /* (B15) UART0_RTSn.MCASP2_ACLKX */
+		>;
+	};
+	P2_19_audio: P2-19-audio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0178, PIN_INPUT, 2) /* (AC20) RGMII2_TD3.MCASP2_ACLKX */
+		>;
+	};
+};
+
+&main_i2c2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&P1_33_A17_i2c>, <&P1_36_B17_i2c>;
+	status = "okay";
+};
+
+&main_spi2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&P1_06_E19_spi>, <&P1_08_spi>, <&P1_10_B19_spi>, <&P1_12_A19_spi>;
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	spidev@0 {
+		compatible = "rohm,dh2228fv";
+		reg = <0>;
+		spi-max-frequency = <24000000>;
+	};
+};
+
+&mcasp2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&P2_05_C15_audio>, <&P2_07_E15_audio>, <&P2_10_audio>, <&P2_11_B15_audio>, <&P2_19_audio>;
+
+	status = "okay";
+
+	op-mode = <0>;          /* MCASP_IIS_MODE */
+	tdm-slots = <2>;
+
+	serial-dir = <  /* 0: INACTIVE, 1: TX, 2: RX */
+	       2 1 0 0
+	       0 0 0 0
+	       0 0 0 0
+	       0 0 0 0
+	>;
+	tx-num-evt = <1>;
+	rx-num-evt = <1>;
+};
+
