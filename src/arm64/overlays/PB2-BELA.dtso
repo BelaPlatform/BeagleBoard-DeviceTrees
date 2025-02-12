@@ -67,9 +67,9 @@
 			AM62X_IOPAD(0x0174, PIN_INPUT, 2) /* (AD21) RGMII2_TD2.MCASP2_AFSX */
 		>;
 	};
-	P2_11_B15_audio: P2-11-B15-audio-pins {
+	P2_11_B15_audio_ext_refclk1: P2-11-B15-audio-pins {
 		pinctrl-single,pins = <
-			AM62X_IOPAD(0x01D4, PIN_INPUT, 8) /* (B15) UART0_RTSn.MCASP2_ACLKX */
+			AM62X_IOPAD(0x01D4, PIN_INPUT, 5) /* (B15) UART0_RTSn.MCASP2_ACLKX */
 		>;
 	};
 	P2_19_audio: P2-19-audio-pins {
@@ -106,7 +106,7 @@
 
 &mcasp2 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&P2_05_C15_audio>, <&P2_07_E15_audio>, <&P2_10_audio>, <&P2_11_B15_audio>, <&P2_19_audio>;
+	pinctrl-0 = <&P2_05_C15_audio>, <&P2_07_E15_audio>, <&P2_10_audio>, <&P2_11_B15_audio_ext_refclk1>, <&P2_19_audio>;
 
 	status = "okay";
 
