@@ -79,10 +79,16 @@
 	};
 };
 
-&main_i2c2 {
+&main_i2c1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&P1_33_A17_i2c>, <&P1_36_B17_i2c>;
 	status = "okay";
+};
+
+&{/aliases} {
+	// the base device tree may have set a different alias for /dev/i2c-1.
+	// We make sure it's i2c1 (hence the name)
+	i2c1 = "/bus@f0000/i2c@20010000";
 };
 
 &main_spi2 {
