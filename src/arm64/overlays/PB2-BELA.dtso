@@ -265,3 +265,8 @@
 		pinctrl-names = "default", "sleep";
 	};
 };
+
+&main_uart0 {
+	// uses P1.32 and P1.30 which are used by bela_digitals
+	status = "disabled";
+};
