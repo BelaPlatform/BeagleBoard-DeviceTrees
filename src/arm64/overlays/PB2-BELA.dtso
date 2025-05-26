@@ -80,6 +80,16 @@
 			AM62X_IOPAD(0x0178, PIN_INPUT, 2) /* (AC20) RGMII2_TD3.MCASP2_ACLKX */
 		>;
 	};
+	P1_02_audio: P1-02-audio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0164, PIN_INPUT, 2) /* (AA19) RGMII2_TX_CTL.MCASP2_AXR4 */
+		>;
+	};
+	P1_04_audio: P1-04-audio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x016C, PIN_INPUT, 2) /* (Y18) RGMII2_TD0.MCASP2_AXR6 */
+		>;
+	};
 
 	// bela_extra_gpios pins
 	P2_02_gpio: P2-02-gpio-pins {
@@ -213,7 +223,13 @@
 
 &mcasp2 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&P2_05_C15_audio>, <&P2_07_E15_audio>, <&P2_10_audio>, <&P2_11_B15_audio_ext_refclk1>, <&P2_19_audio>;
+	pinctrl-0 = <&P2_05_C15_audio>,
+				<&P2_07_E15_audio>,
+				<&P2_10_audio>,
+				<&P2_11_B15_audio_ext_refclk1>,
+				<&P2_19_audio>,
+				<&P1_02_audio>,
+				<&P1_04_audio>;
 
 	status = "okay";
 
@@ -222,7 +238,7 @@
 
 	serial-dir = <  /* 0: INACTIVE, 1: TX, 2: RX */
 	       2 1 0 0
-	       0 0 0 0
+	       1 0 2 0
 	       0 0 0 0
 	       0 0 0 0
 	>;
