@@ -231,6 +231,7 @@
 				<&P1_02_audio>,
 				<&P1_04_audio>;
 
+	interrupt-names = "dummytx", "dummyrx";
 	status = "okay";
 
 	op-mode = <0>;          /* MCASP_IIS_MODE */
