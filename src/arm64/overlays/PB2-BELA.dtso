@@ -286,3 +286,33 @@
 	// uses P1.32 and P1.30 which are used by bela_digitals
 	status = "disabled";
 };
+
+// below: disable reserved ram, from https://github.com/FalconChristmas/fpp/blob/master/capes/drivers/bb64/fpp-base-overlay.dts
+
+&{/firmware} {
+        optee {
+                status = "disabled";
+        };
+};
+
+&reserved_memory {
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	linux,cma {
+		compatible = "shared-dma-pool";
+		reusable;
+		size = <0x00 0x4000000>;
+		linux,cma-default;
+	};
+	secure_ddr: optee@9e800000 {
+		reg = <0x00 0x9e800000 0x00 0x0400000>;
+		alignment = <0x1000>;
+		no-map;
+	};
+	wkup_r5fss0_core0_dma_memory_region: r5f-dma-memory@9db00000 {
+			compatible = "shared-dma-pool";
+			reg = <0x00 0x9db00000 0x00 0x400000>;
+			no-map;
+	};
+};
