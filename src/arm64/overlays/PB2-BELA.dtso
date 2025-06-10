@@ -196,6 +196,11 @@
 	};
 };
 
+&epwm2 {
+	// disabled: its pins conflict with our choice of pins for main_i2c1
+	status = "disabled";
+};
+
 &main_i2c1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&P1_33_A17_i2c>, <&P1_36_B17_i2c>;
