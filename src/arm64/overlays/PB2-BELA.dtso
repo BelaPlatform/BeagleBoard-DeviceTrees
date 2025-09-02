@@ -6,6 +6,7 @@
  */
 
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/leds/common.h>
 #include "ti/k3-pinctrl.h"
 
 /dts-v1/;
@@ -267,6 +268,16 @@
 			<&P2_08_gpio>, // led mosfet
 			<&P2_18_gpio>; // ADC reset
 		pinctrl-names = "default", "sleep";
+	};
+};
+
+&{/leds} {
+	bela-led {
+		bootph-all;
+		gpios = <&main_gpio0 48 GPIO_ACTIVE_HIGH>;
+		color = <LED_COLOR_ID_BLUE>;
+		linux,default-trigger = "heartbeat";
+		function = "bela-power";
 	};
 };
 
