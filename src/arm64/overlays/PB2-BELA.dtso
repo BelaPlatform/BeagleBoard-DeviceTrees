@@ -107,6 +107,11 @@
 			AM62X_IOPAD(0x00C0, PIN_INPUT, 7) /* (W25) VOUT0_DATA2.GPIO0_47 */
 		>;
 	};
+	P2_08_gpio: P2-08-gpio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x00C4, PIN_INPUT, 7) /* (W24) VOUT0_DATA3.GPIO0_48 */
+		>;
+	};
 	P2_18_gpio: P2-18-gpio-pins {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x00D8, PIN_INPUT, 7) /* (V21) VOUT0_DATA8.GPIO0_53 */
@@ -259,6 +264,7 @@
 			<&P2_02_gpio>, // led blue
 			<&P2_04_gpio>, // led red
 			<&P2_06_gpio>, // button
+			<&P2_08_gpio>, // led mosfet
 			<&P2_18_gpio>; // ADC reset
 		pinctrl-names = "default", "sleep";
 	};
