@@ -91,6 +91,11 @@
 			AM62X_IOPAD(0x016C, PIN_INPUT, 2) /* (Y18) RGMII2_TD0.MCASP2_AXR6 */
 		>;
 	};
+	P1_19_audio: P1-19-audio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x017C, PIN_INPUT, 2) /* (AD22) RGMII2_RX_CTL.MCASP2_AXR3 */
+		>;
+	};
 
 	// bela_extra_gpios pins
 	P2_02_gpio: P2-02-gpio-pins {
@@ -240,7 +245,8 @@
 				<&P2_11_B15_audio_ext_refclk1>,
 				<&P2_19_audio>,
 				<&P1_02_audio>,
-				<&P1_04_audio>;
+				<&P1_04_audio>,
+				<&P1_19_audio>;
 
 	interrupt-names = "dummytx", "dummyrx";
 	status = "okay";
@@ -292,7 +298,7 @@
 			<&P1_25_gpio>, // D4 GPIO1_04
 			<&P1_23_gpio>, // D5 GPIO1_05
 			<&P1_21_gpio>, // D6 GPIO1_06
-			<&P1_19_gpio>, // D7 GPIO1_01
+//			<&P1_19_gpio>, // D7 GPIO1_01
 			<&P2_36_gpio>, // D8 GPIO1_16
 			<&P2_31_A13_gpio>, // D9 GPIO1_15
 			<&P2_29_A14_gpio>, // D10 GPIO1_17
