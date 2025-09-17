@@ -81,6 +81,11 @@
 			AM62X_IOPAD(0x0178, PIN_INPUT, 2) /* (AC20) RGMII2_TD3.MCASP2_ACLKX */
 		>;
 	};
+	P2_31_audio: P2-31-audio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0170, PIN_INPUT, 5) /* (AA18) RGMII2_TD1.MCASP2_AXR8 */
+		>;
+	};
 	P1_02_audio: P1-02-audio-pins {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x0164, PIN_INPUT, 2) /* (AA19) RGMII2_TX_CTL.MCASP2_AXR4 */
@@ -244,6 +249,7 @@
 				<&P2_10_audio>,
 				<&P2_11_B15_audio_ext_refclk1>,
 				<&P2_19_audio>,
+				<&P2_31_audio>,
 				<&P1_02_audio>,
 				<&P1_04_audio>,
 				<&P1_19_audio>;
@@ -300,7 +306,7 @@
 			<&P1_21_gpio>, // D6 GPIO1_06
 //			<&P1_19_gpio>, // D7 GPIO1_01
 			<&P2_36_gpio>, // D8 GPIO1_16
-			<&P2_31_A13_gpio>, // D9 GPIO1_15
+//			<&P2_31_A13_gpio>, // D9 GPIO1_15
 			<&P2_29_A14_gpio>, // D10 GPIO1_17
 			<&P2_27_gpio>, // D11 GPIO1_18
 			<&P2_25_gpio>, // D12 GPIO1_19
