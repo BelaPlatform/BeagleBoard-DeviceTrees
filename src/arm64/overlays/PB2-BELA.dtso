@@ -351,4 +351,18 @@
 			reg = <0x00 0x9db00000 0x00 0x400000>;
 			no-map;
 	};
+	bela_io_memory: bela-io-memory {
+			reg = <0x00 0x9ec00000 0x00 0x100000>;
+			no-map;
+	};
+};
+
+&{/} {
+        #address-cells = <2>;
+        #size-cells = <2>;
+        bela-io-memory-uio {
+		status = "okay";
+                compatible = "generic-uio";
+                reg = <0x00 0x9ec00000 0x00 0x100000>;
+        };
 };
