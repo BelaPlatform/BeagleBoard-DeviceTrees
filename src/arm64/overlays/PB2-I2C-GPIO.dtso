@@ -41,8 +41,8 @@
 &cbass_main {
 	i2c_gpio: i2c_gpio {
 		compatible = "i2c-gpio";
-		pinctrl-names = "default";
-		pinctrl-0 = <&P1_33_A17_gpio>, <&P1_36_B17_gpio>;
+		//pinctrl-names = "default";
+		//pinctrl-0 = <&P1_33_A17_gpio>, <&P1_36_B17_gpio>;
 		status = "ok";
 		// say you swapped sda/scl pins on a device: use i2c-gpio to fix that
 		scl-gpios = <&main_gpio1 29 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; // A17 P1.33 i2c1_sda
