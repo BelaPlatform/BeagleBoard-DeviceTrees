@@ -160,19 +160,9 @@
 			AM62X_IOPAD(0x01BC, PIN_INPUT, 7) /* (A14) SPI0_CLK.GPIO1_17 */
 		>;
 	};
-	P2_31_A13_gpio: P2-31-A13-gpio-pins {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x01B4, PIN_INPUT, 7) /* (A13) SPI0_CS0.GPIO1_15 */
-		>;
-	};
 	P2_36_gpio: P2-36-gpio-pins {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x01B8, PIN_INPUT, 7) /* (C13) SPI0_CS1.GPIO1_16 */
-		>;
-	};
-	P1_19_gpio: P1-19-gpio-pins {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x017C, PIN_INPUT, 7) /* (AD22) RGMII2_RX_CTL.GPIO1_1 */
 		>;
 	};
 	P1_21_gpio: P1-21-gpio-pins {
@@ -298,22 +288,22 @@
 	bela_digitals {
 		compatible = "gpio-leds";
 		pinctrl-0 =
-			<&P1_34_gpio>, // D0 GPIO1_02
-			<&P1_32_gpio>, // D1 GPIO1_20
-			<&P1_30_gpio>, // D2 GPIO1_21
-			<&P1_27_gpio>, // D3 GPIO1_03
-			<&P1_25_gpio>, // D4 GPIO1_04
-			<&P1_23_gpio>, // D5 GPIO1_05
-			<&P1_21_gpio>, // D6 GPIO1_06
-//			<&P1_19_gpio>, // D7 GPIO1_01
-			<&P2_36_gpio>, // D8 GPIO1_16
-//			<&P2_31_A13_gpio>, // D9 GPIO1_15
-			<&P2_29_A14_gpio>, // D10 GPIO1_17
+			<&P1_21_gpio>, // D0 GPIO1_6
+			<&P1_23_gpio>, // D1 GPIO1_5
+			<&P1_25_gpio>, // D2 GPIO1_4
+			<&P1_27_gpio>, // D3 GPIO1_3
+			<&P1_30_gpio>, // D4 GPIO1_21
+			<&P1_32_gpio>, // D5 GPIO1_20
+			<&P1_34_gpio>, // D6 GPIO1_2
+			<&P2_01_B20_gpio>, // D7 GPIO1_11
+			<&P2_03_B18_gpio>, // D8 GPIO1_9
+			<&P2_09_A15_gpio>, // D9 GPIO1_22
+			<&P2_25_gpio>, // D10 GPIO1_19
 			<&P2_27_gpio>, // D11 GPIO1_18
-			<&P2_25_gpio>, // D12 GPIO1_19
-			<&P2_09_A15_gpio>, // D13 GPIO1_22
-			<&P2_03_B18_gpio>, // D14 GPIO1_09
-			<&P2_01_B20_gpio>; // D15 GPIO1_11
+			<&P2_29_A14_gpio>, // D12 GPIO1_17
+			<&P2_36_gpio>, // D13 GPIO1_16
+			<&P2_33_gpio>, // D14 GPIO0_52
+			<&P2_35_gpio>; // D15 GPIO0_54
 		pinctrl-names = "default", "sleep";
 	};
 };
