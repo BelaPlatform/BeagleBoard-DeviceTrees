@@ -214,9 +214,11 @@
 };
 
 &{/aliases} {
-	// the base device tree may have set a different alias for /dev/i2c-1.
-	// We make sure it's i2c1 (hence the name)
-	i2c1 = "/bus@f0000/i2c@20010000";
+	// the base device tree may have set up arbitrary aliases for /dev/i2c-*
+	// We assign our own arbitrary mapping, which may be counter-intuitive:
+	// (main))I2C1 becomes /dev/i2c-2 and (main_)I2C2 becomes /dev/i2c-1
+	i2c1 = "/bus@f0000/i2c@20020000";
+	i2c2 = "/bus@f0000/i2c@20010000";
 	spi2 = "/bus@f0000/spi@20120000";
 };
 
