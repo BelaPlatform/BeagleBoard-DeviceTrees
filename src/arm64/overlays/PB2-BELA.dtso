@@ -286,6 +286,27 @@
 	};
 };
 
+// here we override the pinctrl for the base device tree's main_gpios so that they don't conflict with our pins
+
+&main_gpio0 {
+	pinctrl-0 = <>;
+	pinctrl-single,pins = <
+		AM62X_IOPAD(0x00c8, PIN_INPUT, 7) /* (Y25) VOUT0_DATA4.GPIO0_49 */
+		AM62X_IOPAD(0x00cc, PIN_INPUT, 7) /* (Y24) VOUT0_DATA5.GPIO0_50 */
+		AM62X_IOPAD(0x00d0, PIN_INPUT, 7) /* (Y23) VOUT0_DATA6.GPIO0_51 */
+		AM62X_IOPAD(0x00d8, PIN_INPUT, 7) /* (V21) VOUT0_DATA8.GPIO0_53 */
+		AM62X_IOPAD(0x0100, PIN_INPUT, 7) /* (AC25) VOUT0_VSYNC.GPIO0_63 */
+	>;
+};
+
+&main_gpio1 {
+	pinctrl-0 = <>;
+	pinctrl-single,pins = <
+			AM62X_IOPAD(0x01a0, PIN_INPUT, 7) /* (E18) MCASP0_AXR0.GPIO1_10 */
+			AM62X_IOPAD(0x01a8, PIN_INPUT, 7) /* (D20) MCASP0_AFSX.GPIO1_12 */
+	>;
+};
+
 &{/leds} {
 	bela-led {
 		bootph-all;
