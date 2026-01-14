@@ -232,6 +232,10 @@
 	spi2 = "/bus@f0000/spi@20120000";
 };
 
+&main_spi0 {
+	status= "disabled";
+};
+
 &main_spi2 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&P1_06_E19_spi>, <&P1_08_spi>, <&P1_10_B19_spi>, <&P1_12_A19_spi>;
