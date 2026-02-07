@@ -115,7 +115,7 @@
 	};
 	P2_06_gpio: P2-06-gpio-pins {
 		pinctrl-single,pins = <
-			AM62X_IOPAD(0x00C0, PIN_INPUT, 7) /* (W25) VOUT0_DATA2.GPIO0_47 */
+			AM62X_IOPAD(0x00C0, PIN_INPUT_PULLUP, 7) /* (W25) VOUT0_DATA2.GPIO0_47 */
 		>;
 	};
 	P2_08_gpio: P2-08-gpio-pins {
