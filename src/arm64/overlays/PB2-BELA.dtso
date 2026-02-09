@@ -50,11 +50,22 @@
 			AM62X_IOPAD(0x01EC, PIN_INPUT_PULLUP, 0) /* (A17) I2C1_SDA */
 		>;
 	};
+	P1_33_AA23_pullup: P1-33-AA23-gpio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x00E4, PIN_INPUT_PULLUP, 7) /* (AA23) VOUT0_DATA11.GPIO0_56 */
+		>;
+	};
 	P1_36_B17_i2c: P1-36-B17-i2c-pins {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x01E8, PIN_INPUT_PULLUP, 0) /* (B17) I2C1_SCL */
 		>;
 	};
+	P1_36_V20_pullup: P1-36-V20-gpio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x00E0, PIN_INPUT_PULLUP, 7) /* (V20) VOUT0_DATA10.GPIO0_55 */
+		>;
+	};
+
 	// MCASP2 pins
 	P2_05_C15_audio: P2-05-C15-audio-pins {
 		pinctrl-single,pins = <
@@ -79,6 +90,11 @@
 	P2_19_audio: P2-19-audio-pins {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x0178, PIN_INPUT, 2) /* (AC20) RGMII2_TD3.MCASP2_ACLKX */
+		>;
+	};
+	P2_20_gpio: P2-20-gpio-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x00C8, PIN_OUTPUT, 7) /* (Y25) VOUT0_DATA4.GPIO0_49 */
 		>;
 	};
 	P2_31_audio: P2-31-audio-pins {
@@ -219,7 +235,11 @@
 
 &main_i2c1 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&P1_33_A17_i2c>, <&P1_36_B17_i2c>;
+	// try to compensate for signal quality:
+	// add pullups on neighbouring pins
+	pinctrl-0 = <&P1_33_A17_i2c>, <&P1_36_B17_i2c>, <&P1_33_AA23_pullup>, <&P1_36_V20_pullup>;
+	// slow down the clock
+	clock-frequency = <100000>;
 	status = "okay";
 };
 
