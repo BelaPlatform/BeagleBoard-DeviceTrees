@@ -233,6 +233,11 @@
 	status = "disabled";
 };
 
+&ecap2 {
+	// disabled: its default pins conflict with D7
+	status = "disabled";
+};
+
 &main_i2c1 {
 	pinctrl-names = "default";
 	// try to compensate for signal quality:
