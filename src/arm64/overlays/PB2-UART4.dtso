@@ -1,0 +1,43 @@
+/*
+ * PB2-UART4.dts - Device Tree Overlay for UART4 (ttyS4)
+ * Target: PocketBeagle 2 (TI AM6254)
+ *
+ * Configures UART4 on PocketBeagle 2 expansion headers:
+ *   UART4: P2.20 (RX) / P1.20 (TX) - /dev/ttyS4
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/leds/common.h>
+#include "ti/k3-pinctrl.h"
+
+/dts-v1/;
+/plugin/;
+
+/*
+ * Helper to show loaded overlays under: /proc/device-tree/chosen/overlays/
+ */
+&{/chosen} {
+	overlays {
+		PB2-UART4.kernel = __TIMESTAMP__;
+	};
+};
+
+// definitions from pinmux/board/pocketbeagle2/pocketbeagle2-pinmux.dts
+&main_pmx0 {
+	P1_20_uart4_txd: P1-20-uart4-txd-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x00CC, PIN_OUTPUT, 4) /* (Y24) VOUT0_DATA5.UART4_TXD */
+		>;
+	};
+	P2_20_uart4_rxd: P2-20-uart4-rxd-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x00C8, PIN_INPUT, 4) /* (Y25) VOUT0_DATA4.UART4_RXD */
+		>;
+	};
+};
+
+&main_uart4 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&P1_20_uart4_txd>, <&P2_20_uart4_rxd>;
+};
