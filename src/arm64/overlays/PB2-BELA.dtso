@@ -92,9 +92,9 @@
 			AM62X_IOPAD(0x0178, PIN_INPUT, 2) /* (AC20) RGMII2_TD3.MCASP2_ACLKX */
 		>;
 	};
-	P2_20_gpio: P2-20-gpio-pins {
+	P2_17_pru0out: P2-17-pru0out-pins {
 		pinctrl-single,pins = <
-			AM62X_IOPAD(0x00C8, PIN_OUTPUT, 7) /* (Y25) VOUT0_DATA4.GPIO0_49 */
+			AM62X_IOPAD(0x0104, PIN_OUTPUT, 5) /* (AC24) VOUT0_PCLK.PR0_PRU0_GPO19 */
 		>;
 	};
 	P2_31_audio: P2-31-audio-pins {
@@ -366,6 +366,12 @@
 			<&P2_36_gpio>, // D13 GPIO1_16
 			<&P2_33_gpio>, // D14 GPIO0_52
 			<&P2_35_gpio>; // D15 GPIO0_54
+		pinctrl-names = "default", "sleep";
+	};
+	o2l {
+		// dummy driver, just to claim this pin for O2L
+		compatible = "gpio-leds";
+		pinctrl-0 = <&P2_17_pru0out>;
 		pinctrl-names = "default", "sleep";
 	};
 };
